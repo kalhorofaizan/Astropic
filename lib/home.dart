@@ -1,5 +1,3 @@
-
-
 import 'package:astropic_admin/add_page.dart';
 import 'package:astropic_admin/imageshow.dart';
 import 'package:astropic_admin/model/picsmodel.dart';
@@ -21,9 +19,13 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final double itemHeight = (MediaQuery.of(context).size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = MediaQuery.of(context).size.width / 2;
     return Scaffold(
       floatingActionButton: FloatingActionButton(child: Icon(Icons.add),onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPage())).then((onValue){
+            ScopedModel.of<PicModel>(context).getdata();
+          });
       },),
       appBar: AppBar(
         actions: <Widget>[
@@ -41,20 +43,26 @@ class _HomeState extends State<Home> {
       ),
       body: Container(
           child: ScopedModelDescendant<PicModel>(
+            rebuildOnChange: true,
             builder:(context,child,model){
-              return GridView.builder(
+              return  model.picsist.length==0? Center( child: Text("NO Images"),):   GridView.builder(
                 gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 2/3),
                 itemCount: model.picsist.length,
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
                 itemBuilder: (context, index) {
-                print(model.picsist);
-                print("1");
-                  return Imageshow(model.picsist[index]['image']);
+                  return Card(
+                      child: Imageshow(model.picsist[index]['image'],model.picsist[index]['id']));
                 },
               );
             },
           )),
     );
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
   }
 }
