@@ -18,6 +18,7 @@ class _AddPageState extends State<AddPage> {
   TextEditingController _textEditingController=TextEditingController();
   var _image;
   var cat="Art";
+  bool change=false;
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -27,7 +28,7 @@ class _AddPageState extends State<AddPage> {
   }
 
   uploadImage(){
-    var name=randomAlphaNumeric(16);
+    var name=randomAlphaNumeric(10);
     FirebaseStorage.instance.ref().child(name).putFile(_image);
     Firestore.instance.collection('pics').add({
       "add_time":Timestamp.now(),
@@ -35,9 +36,9 @@ class _AddPageState extends State<AddPage> {
       "image":name,
       "setcount":0
     });
-// Find the Scaffold in the widget tree and use it to show a SnackBar.
     setState(() {
       _image=null;
+      change=true;
     });
 
   }
@@ -60,6 +61,9 @@ class _AddPageState extends State<AddPage> {
               Container(
                 width: 90,
                 child: DropdownButton<String>(
+                  style: TextStyle(
+                      color: Colors.white,
+                  ),
                   value: cat,
                   items: <String>['Art', 'Design', 'Quote'].map((String value) {
                     return new DropdownMenuItem<String>(
@@ -82,15 +86,17 @@ class _AddPageState extends State<AddPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 40),
                     child: _image == null
-                        ? Text('No image selected.')
+                        ? Text('No image selected.',style: TextStyle(
+                      color: Colors.white
+                    ),)
                         : Image.file(_image),
                   ),
                 ),
               ),
-              Center(child: RaisedButton(onPressed: getImage,child: Text("Select Image"),color: Color(0xffE9ED5C),),),
+              Center(child: RaisedButton(onPressed: getImage,child: Text("Select Image"),color: Color(0xff2286c3),),),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(child: RaisedButton(child: Text("UPLOAD"),color: Color(0xff5EC9FD),onPressed:(){
+                child: Container(child: RaisedButton(child: Text("UPLOAD"),color: Color(0xff65499c),onPressed:(){
                   uploadImage();
                   Fluttertoast.showToast(
                       msg: "Success Full uploaded",

@@ -1,9 +1,10 @@
-import 'package:astropic_admin/add_page.dart';
-import 'package:astropic_admin/imageshow.dart';
+import 'package:astropic_admin/add_wallpaper.dart';
+import 'package:astropic_admin/grid_pics.dart';
 import 'package:astropic_admin/model/picsmodel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import './drawer_widget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class Home extends StatefulWidget {
@@ -19,15 +20,15 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final double itemHeight = (MediaQuery.of(context).size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = MediaQuery.of(context).size.width / 2;
     return Scaffold(
+      drawer: DrawerWidget(),
       floatingActionButton: FloatingActionButton(child: Icon(Icons.add),onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPage())).then((onValue){
             ScopedModel.of<PicModel>(context).getdata();
           });
       },),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         actions: <Widget>[
           IconButton(
             onPressed: (){
@@ -45,16 +46,7 @@ class _HomeState extends State<Home> {
           child: ScopedModelDescendant<PicModel>(
             rebuildOnChange: true,
             builder:(context,child,model){
-              return  model.picsist.length==0? Center( child: Text("NO Images"),):   GridView.builder(
-                gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 2/3),
-                itemCount: model.picsist.length,
-                padding: EdgeInsets.all(5),
-                itemBuilder: (context, index) {
-                  return Card(
-                      child: Imageshow(model.picsist[index]['image'],model.picsist[index]['id']));
-                },
-              );
+              return  model.picsist.length==0? Center( child: Text("NO Images"),):  GridPics(pics: model.picsist,);
             },
           )),
     );
@@ -62,7 +54,6 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-
     super.dispose();
   }
 }

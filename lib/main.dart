@@ -14,13 +14,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color(0xff5CCAFD),
+    return ScopedModel<PicModel>(
+      model: new PicModel(),
+      child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Color(0xff212121),
+          backgroundColor: Color(0xff000000),
+          scaffoldBackgroundColor: Color(0xff484848),
+          canvasColor: Color(0xff484848),
+          accentColor: Color(0xff65499c),
+        ),
+        home: Home(),
       ),
-      home: ScopedModel<PicModel>(
-          model: new PicModel(),
-          child: Home()),
     );
   }
 }
