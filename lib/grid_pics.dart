@@ -1,7 +1,4 @@
-import 'package:astropic_admin/model/picsmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
-
 import 'imageshow.dart';
 
 class GridPics extends StatefulWidget {
@@ -14,8 +11,11 @@ class GridPics extends StatefulWidget {
 }
 
 class _GridPicsState extends State<GridPics> {
+
   @override
   Widget build(BuildContext context) {
+
+
     return GridView.builder(
       gridDelegate:
       SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 2/3),
@@ -27,5 +27,11 @@ class _GridPicsState extends State<GridPics> {
             child: widget.pics!=null ? Imageshow(widget.pics[index]['image'],id:  widget.pics[index]['id']):  Imageshow(widget.favor[index])) ;
       },
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }

@@ -17,6 +17,7 @@ class _ShowCatogaState extends State<ShowCatoga> {
 
 
   getdata(){
+    pics=[];
     Firestore.instance
         .collection("pics").where("category", isEqualTo: widget.cato)
         .orderBy("add_time", descending: true)

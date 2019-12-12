@@ -15,6 +15,7 @@ class _TrandingState extends State<Tranding> {
   List<Map<String, dynamic>> pics=[];
 
   getdata(){
+    pics=[];
     Firestore.instance
         .collection("pics")
         .orderBy("setcount", descending: true)
@@ -22,7 +23,7 @@ class _TrandingState extends State<Tranding> {
         .then((snapshort) {
       snapshort.documents.forEach((f) async {
         print(f['image']);
-        pics.add({"image": f.data["image"], "id": f.documentID});
+        pics.add({"image": f.data["image"]});
       });
       setState(() {
 

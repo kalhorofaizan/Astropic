@@ -14,6 +14,7 @@ class PicModel extends Model {
   List<String> _favorites = [];
 
   List<String> get favoritelist => _favorites;
+  List<dynamic> doc =[];
 
   String storekey="fav";
 
@@ -24,6 +25,7 @@ class PicModel extends Model {
   }
 
   getdata() async {
+    doc=[];
     __picslist = [];
     notifyListeners();
     Firestore.instance
@@ -33,6 +35,7 @@ class PicModel extends Model {
         .getDocuments()
         .then((snapshort) {
       snapshort.documents.forEach((f) async {
+        doc.add(f);
         __picslist.add({"image": f.data["image"], "id": f.documentID});
       });
       notifyListeners();
@@ -42,11 +45,13 @@ class PicModel extends Model {
     print("'gatting data .............");
     Firestore.instance
         .collection("pics")
-        .orderBy("add_time", descending: true)
+        .orderBy("add_time", descending: true).startAfterDocument(doc[index])
         .getDocuments()
         .then((snapshort) {
       snapshort.documents.forEach((f) async {
-        __picslist.add({"image": f.data["image"], "id": f.documentID});
+        print(f.documentID);
+//        doc.add(f);
+//        __picslist.add({"image": f.data["image"], "id": f.documentID});
       });
       notifyListeners();
     });

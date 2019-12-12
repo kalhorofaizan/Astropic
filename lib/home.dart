@@ -16,8 +16,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  StorageReference photoref=FirebaseStorage.instance.ref().child('Art');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

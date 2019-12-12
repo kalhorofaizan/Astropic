@@ -17,7 +17,7 @@ class _CatogariesPageState extends State<CatogariesPage> {
     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ShowCatoga(name)));
   }
 
-   Widget _catogoryWidget(image,title){
+   Widget _catogoryWidget(image,title,name){
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -34,7 +34,7 @@ class _CatogariesPageState extends State<CatogariesPage> {
         splashColor: Colors.white,
         borderRadius: BorderRadius.circular(15),
         onTap: (){
-          sendpage("Quote");
+          sendpage(name);
         },
         child: Align(
           alignment: Alignment.center,
@@ -58,9 +58,9 @@ class _CatogariesPageState extends State<CatogariesPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _catogoryWidget("assets/designcat.jpg", "DESIGN"),
-              _catogoryWidget("assets/quotescat.jpg", 'QUOTES'),
-              _catogoryWidget("assets/artcat.jpg", "ART")
+              _catogoryWidget("assets/designcat.jpg", "DESIGN",'Design'),
+              _catogoryWidget("assets/quotescat.jpg", 'QUOTES','Quote'),
+              _catogoryWidget("assets/artcat.jpg", "ART",'Art')
             ],
           ),
         ),

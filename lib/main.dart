@@ -1,5 +1,5 @@
-import 'package:astropic_admin/home.dart';
 import 'package:astropic_admin/model/picsmodel.dart';
+import 'package:astropic_admin/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -13,8 +13,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
 
+
   @override
   Widget build(BuildContext context) {
+
     return ScopedModel<PicModel>(
       model: new PicModel(),
       child: MaterialApp(
@@ -25,7 +27,7 @@ class _MyAppState extends State<MyApp> {
           canvasColor: Color(0xff484848),
           accentColor: Color(0xff65499c),
         ),
-        home: Home(),
+        home: SplashScreen(),
       ),
     );
   }
