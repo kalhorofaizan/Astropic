@@ -32,8 +32,6 @@ class _ShowCatogaState extends State<ShowCatoga> {
     });
   }
 
-
-
   @override
   void initState() {
 
@@ -56,7 +54,7 @@ class _ShowCatogaState extends State<ShowCatoga> {
         title: Text(widget.cato),
       ),
       body: Container(
-            child: pics.length==0 ? Center( child: Text("NO Images"),):  GridPics(pics: pics,),
+            child: pics.length==0 ? Center( child: CircularProgressIndicator(),):  GridPics(pics: pics,),
       ),
     );
   }

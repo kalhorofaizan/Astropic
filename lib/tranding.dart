@@ -30,15 +30,12 @@ class _TrandingState extends State<Tranding> {
     });
   }
 
-
-
   @override
   void initState() {
 
     getdata();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +53,7 @@ class _TrandingState extends State<Tranding> {
         title: Text("Tranding"),
       ),
       body: Container(
-        child: pics.length==0 ? Center( child: Text("NO Images"),):  GridPics(pics: pics,),
+        child: pics.length==0 ? Center( child: CircularProgressIndicator(),):  GridPics(pics: pics,),
       ),
     );
   }

@@ -14,11 +14,9 @@ class GridPics extends StatefulWidget {
 }
 
 class _GridPicsState extends State<GridPics> {
-  ScrollController _scrollController=ScrollController();
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      controller: _scrollController,
       gridDelegate:
       SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 2/3),
       itemCount: widget.pics!=null?  widget.pics.length :widget.favor.length ,

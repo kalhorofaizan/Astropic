@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
           child: ScopedModelDescendant<PicModel>(
             rebuildOnChange: true,
             builder:(context,child,model){
-              return  model.picsist.length==0? Center( child: Text("NO Images"),):  GridPics(pics: model.picsist,);
+              return  model.picsist.length==0? Center( child: CircularProgressIndicator(),):  GridPics(pics: model.picsist,);
             },
           )),
     );

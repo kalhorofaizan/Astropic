@@ -17,6 +17,34 @@ class _CatogariesPageState extends State<CatogariesPage> {
     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ShowCatoga(name)));
   }
 
+   Widget _catogoryWidget(image,title){
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        image: DecorationImage(
+          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken),
+          image: AssetImage(image),
+          fit: BoxFit.fill,
+        ),
+      ),
+      margin: EdgeInsets.symmetric(vertical: 20),
+      width: MediaQuery.of(context).size.width*0.6,
+      height: MediaQuery.of(context).size.height*0.17,
+      child: InkWell(
+        splashColor: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        onTap: (){
+          sendpage("Quote");
+        },
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(title,style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.height*0.05),),
+        ),
+      ),
+    );
+   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,82 +52,17 @@ class _CatogariesPageState extends State<CatogariesPage> {
       appBar: AppBar(
         title: Text("Catogaries"),
       ),
-      body: Container(
-        width:MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken),
-                  image: AssetImage('assets/artcat.jpg'),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              margin: EdgeInsets.symmetric(vertical: 20),
-              width: MediaQuery.of(context).size.width*0.6,
-              height: MediaQuery.of(context).size.height*0.17,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(15),
-                onTap: (){
-                  sendpage("Art");
-                },
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text("ART",style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.height*0.05),),
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken),
-                  image: AssetImage('assets/designcat.jpg'),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              margin: EdgeInsets.symmetric(vertical: 20),
-              width: MediaQuery.of(context).size.width*0.6,
-              height: MediaQuery.of(context).size.height*0.17,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(15),
-                onTap: (){
-                  sendpage("Design");
-                },
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text("DESIGN",style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.height*0.05),),
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken),
-                  image: AssetImage('assets/quotescat.jpg'),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              margin: EdgeInsets.symmetric(vertical: 20),
-              width: MediaQuery.of(context).size.width*0.6,
-              height: MediaQuery.of(context).size.height*0.17,
-              child: InkWell(
-                splashColor: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                onTap: (){
-                  sendpage("Quote");
-                },
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text("QUOTES",style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.height*0.05),),
-                ),
-              ),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          width:MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _catogoryWidget("assets/designcat.jpg", "DESIGN"),
+              _catogoryWidget("assets/quotescat.jpg", 'QUOTES'),
+              _catogoryWidget("assets/artcat.jpg", "ART")
+            ],
+          ),
         ),
       ),
     );

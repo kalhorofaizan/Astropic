@@ -1,9 +1,8 @@
-import 'package:astropic_admin/model/picsmodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:wallpaper/wallpaper.dart';
 
 class BigImage extends StatefulWidget {
@@ -28,6 +27,67 @@ class _BigImageState extends State<BigImage> {
       FirebaseStorage.instance.ref().child(widget.name).delete().then((onValue){
       Navigator.pop(context,true);
       });
+    });
+
+  }
+
+
+  setimage(){
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Center(
+            child: CircularProgressIndicator(),
+          )
+        );
+      },
+    );
+
+    if (widget.id!="") {
+      Firestore.instance.collection('pics').document(widget.id).get().then((onValue){
+        print(widget.id);
+        var image=onValue['image'];
+        var cat=onValue['category'];
+        var setcount=onValue['setcount']+1;
+        var time=onValue['add_time'];
+        Firestore.instance.collection('pics').document(widget.id).updateData({
+          "image":image,
+          "category":cat,
+          "setcount":setcount,
+          "add_time":time,
+        });
+      });
+    }
+    var progressString =
+    Wallpaper.ImageDownloadProgress(widget.url);
+    progressString.listen((data1) {
+      setState(() {
+        res = data1;
+        downloading = true;
+      });
+      print("DataReceived: " + data1);
+    }, onDone: () async {
+      home = await Wallpaper.homeScreen();
+      Navigator.pop(context);
+      Fluttertoast.showToast(
+          msg: "Success Full uploaded",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1
+      );
+      setState(() {
+        downloading = false;
+        home = home;
+      });
+      print("Task Done");
+    }, onError: (error) {
+      setState(() {
+        downloading = false;
+      });
+      print("Some Error");
     });
 
   }
@@ -59,12 +119,21 @@ class _BigImageState extends State<BigImage> {
                 setState(() {
                   widget.fav=!widget.fav;
                 });
-              },) : IconButton(icon: Icon(Icons.favorite_border),onPressed: (){
+              },) : IconButton(icon: Icon(Icons.favorite_border,color: Colors.white,),onPressed: (){
                 widget.setfav();
                 setState(() {
                   widget.fav=!widget.fav;
                 });
               },) ,
+            ),
+            Positioned(
+              top: 20,
+              left: 10,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back,color: Colors.white,), onPressed: () {
+                Navigator.pop(context,false);
+              },
+              ),
             ),
             Positioned(
               bottom: 0,
@@ -77,49 +146,7 @@ class _BigImageState extends State<BigImage> {
                       height: 50,
                       child: RaisedButton(
                         onPressed: (){
-
-                          if (widget.id!="") {
-                            Firestore.instance.collection('pics').document(widget.id).get().then((onValue){
-                              print(widget.id);
-                            var image=onValue['image'];
-                            var cat=onValue['category'];
-                            var setcount=onValue['setcount']+1;
-                            var time=onValue['add_time'];
-                            Firestore.instance.collection('pics').document(widget.id).updateData({
-                              "image":image,
-                              "category":cat,
-                              "setcount":setcount,
-                              "add_time":time,
-                            });
-                            });
-                          }
-                          var progressString =
-                          Wallpaper.ImageDownloadProgress(widget.url);
-                          progressString.listen((data1) {
-                            setState(() {
-                              res = data1;
-                              downloading = true;
-                            });
-                            print("DataReceived: " + data1);
-                          }, onDone: () async {
-                            home = await Wallpaper.homeScreen();
-                            Fluttertoast.showToast(
-                                msg: "Success Full uploaded",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIos: 1
-                            );
-                            setState(() {
-                              downloading = false;
-                              home = home;
-                            });
-                            print("Task Done");
-                          }, onError: (error) {
-                            setState(() {
-                              downloading = false;
-                            });
-                            print("Some Error");
-                          });
+                          setimage();
                         },child: Text("Set As Wallpaper"),color: Theme.of(context).accentColor,
                       ),
                     ),

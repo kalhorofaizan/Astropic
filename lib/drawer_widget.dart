@@ -14,8 +14,6 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends State<DrawerWidget> {
 
-  bool home=true;
-  bool fav=false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ))),
           ),
           ListTile(
-            selected: home,
             onTap: (){
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
             },
@@ -64,7 +61,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             },
           ),
           ListTile(
-            selected: fav,
             title: Text("Favorites",style:TextStyle(color: Colors.white),),
             leading: Icon(Icons.favorite,color: Colors.white,),
             onTap: (){
